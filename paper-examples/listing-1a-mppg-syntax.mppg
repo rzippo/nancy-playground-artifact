@@ -1,6 +1,5 @@
-// Listing 1a from the paper: MPPG script from Guidolin-Pina et al. [guidolinpina:hal-04513292]
-// This script is the example used in the paper to compare MPPG syntax with C# code.
-// Run with: nancy-playground run listing-1a-mppg-syntax.mppg
+// Listing 1a from the paper: MPPG script from https://hal.science/hal-04513292
+// Used in the paper to compare MPPG syntax with C# code
 
 T4 := 60
 A1 := stair(0, 60, 35)

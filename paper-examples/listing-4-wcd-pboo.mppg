@@ -1,6 +1,5 @@
 // Listing 4 from the paper: Computing WCD bounds, two nodes case. PBOO improves bounds.
-// Reference: Section 6.1.2 of Bouillard et al., Deterministic Network Calculus (2018).
-// Run with: nancy-playground run listing-4-wcd-pboo.mppg
+// Reference: Section 6.1.2 of Deterministic Network Calculus (2018)
 
 // arrival curve for the traffic
 ac := bucket(2, 2)

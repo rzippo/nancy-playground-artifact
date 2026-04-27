@@ -1,6 +1,6 @@
 // Listing 5 from the paper: Computing WCD bounds on a contended node, using residual service curves.
-// Requires the service curve to be *strict*. See Section 7.2.1 of Bouillard et al. (2018).
-// Run with: nancy-playground run listing-5-rsc-strict.mppg
+// This approach requires the service curve to be *strict*. 
+// See Section 7.2.1 of Deterministic Network Calculus (2018)
 
 // arrival curves for two traffic streams on the same node
 a1 := bucket(2, 2)

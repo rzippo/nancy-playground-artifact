@@ -1,6 +1,5 @@
 // Listing 3 from the paper: Computing bounds using hDev() and vDev(), single node case.
-// Reference: Section 5.3 of Bouillard et al., Deterministic Network Calculus (2018).
-// Run with: nancy-playground run listing-3-wcd-single-node.mppg
+// Reference: Section 5.3 of Deterministic Network Calculus (2018)
 
 // arrival curve for the traffic
 ac := bucket(2, 2)
