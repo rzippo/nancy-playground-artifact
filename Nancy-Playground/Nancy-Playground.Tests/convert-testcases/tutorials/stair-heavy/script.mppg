@@ -1,0 +1,9 @@
+// Example of (min,+) convolution with high lcm(),
+// that benefits from super-isospeed optimizations.
+// See https://doi.org/10.1145/3793250
+
+f1 := stair(3, 13*4, 3*17)
+f2 := stair(7, 19*15, 12*21)
+g := f1 * f2
+// plot(f1, f2, g)
+g(10)

@@ -1,0 +1,24 @@
+f := ratency(1, 3)
+g := ratency(1, 3)
+
+// comment
+ // comment # recomment
+h := f * f // comment
+h
+
+% comment
+ % comment
+h := f * f % comment
+h
+
+# comment
+ # comment
+h := f * f # comment
+h
+
+> comment
+ > comment
+> comment // recomment
+h := f * f
+h
+

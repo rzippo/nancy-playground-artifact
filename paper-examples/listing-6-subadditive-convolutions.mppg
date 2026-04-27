@@ -1,0 +1,9 @@
+// Listing 6 from the paper: (min,+) convolution that benefits from optimizations on subadditive functions.
+// Reference: Zippo & Stea, "An Efficient Parallel Network Calculus Library" (2023), doi:10.1109/TIT.2023.3244276
+// Run with: nancy-playground run listing-6-subadditive-convolutions.mppg
+
+f := star( ratency(5, 13) + 11 )
+g := star( ratency(7, 17) + 15 )
+h := star( ratency(11, 19) + 21 )
+k := f * g * h
+plot(f, g, h, k)

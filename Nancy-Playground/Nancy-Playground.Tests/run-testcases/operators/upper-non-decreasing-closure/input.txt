@@ -1,0 +1,6 @@
+// Test upper non-decreasing closure: upclosure(f)
+// upclosure makes f non-decreasing (takes max with diagonal)
+// For declining affine f(x) = -x + 10, upclosure makes it constant at max value
+f := affine(-1, 10)
+result := upclosure(f)
+assert( result = 10 )

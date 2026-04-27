@@ -1,0 +1,6 @@
+f := stair(0, 10, 1)
+g := affine(1, 2)
+h := f + g
+plot(f, out = "plot1.png", main = "Plot 1", gui = "no")
+plot(g, out = "plot2.png", main = "Plot 2", gui = "no")
+plot(h, f, g, out = "plot3.png", main = "Plot 3 - Combined", gui = "no")

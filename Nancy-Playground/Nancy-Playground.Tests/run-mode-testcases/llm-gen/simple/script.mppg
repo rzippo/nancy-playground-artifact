@@ -1,0 +1,6 @@
+f := stair(0, 10, 1)
+g := affine(1, 0)
+f
+g
+h := f + g
+h

@@ -1,0 +1,6 @@
+# This ' is a : comment with ! weird < chars > inside ’
+> f := ratency ( 1 , 3 )
+f = new RateLatencyServiceCurve(1, 3)
+// This ' is a : comment with ! weird < chars > inside ’
+> g := ratency ( 1 , 3 )
+g = new RateLatencyServiceCurve(1, 3)

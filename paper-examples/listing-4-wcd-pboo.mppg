@@ -1,0 +1,20 @@
+// Listing 4 from the paper: Computing WCD bounds, two nodes case. PBOO improves bounds.
+// Reference: Section 6.1.2 of Bouillard et al., Deterministic Network Calculus (2018).
+// Run with: nancy-playground run listing-4-wcd-pboo.mppg
+
+// arrival curve for the traffic
+ac := bucket(2, 2)
+// service curves for two nodes traversed
+sc_1 := ratency(3, 1)
+sc_2 := ratency( 3, 1)
+// First idea: compute WCD per node, then sum them
+// To do so, we first compute the *output arrival curve* between node 1 and 2
+out_ac_1 := (ac / sc_1) /\ delay(0)
+wcd_1 := hdev(ac, sc_1)
+wcd_2 := hdev(out_ac_1, sc_2)
+wcd_sum := wcd_1 + wcd_2
+// Better idea: use Pay-Burst-Only-Once
+// Compute a service curve for the concatenation of the two nodes using (min,+) convolution
+wcd_pboo := hdev(ac, sc_1 * sc_2)
+// PBOO gives better bounds
+assert(wcd_pboo <= wcd_sum)

@@ -1,0 +1,10 @@
+a := 5
+b := 10
+c := a + b
+c
+f := stair(0, c, a)
+g := affine(b, 0)
+d := hDev(f, g)
+d
+h := f + g
+h

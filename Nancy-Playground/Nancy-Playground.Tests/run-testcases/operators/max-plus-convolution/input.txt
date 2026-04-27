@@ -1,0 +1,9 @@
+// Test (max,+) convolution: f1 *^ f2
+// f1(x) = 2x + 5
+// f2(x) = 3x + 2
+// Expected result: (f1 *^ f2)(t) = 3t + 7 (slope 2\/3=3, burst 5+2=7)
+f1 := affine(2, 5)
+f2 := affine(3, 2)
+result := f1 *^ f2
+expected := affine(3, 7)
+assert( result = expected )

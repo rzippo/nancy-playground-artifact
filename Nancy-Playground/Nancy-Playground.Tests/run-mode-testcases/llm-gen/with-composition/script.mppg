@@ -1,0 +1,6 @@
+f := stair(0, 5, 1)
+g := affine(2, 0)
+h := g comp f
+h
+h2 := f comp g
+h2

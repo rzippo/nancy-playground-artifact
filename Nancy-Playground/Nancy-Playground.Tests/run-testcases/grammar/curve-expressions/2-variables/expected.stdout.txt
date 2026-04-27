@@ -1,0 +1,18 @@
+> a := step ( 0 , 1 )
+a = new StepCurve(1, 0)
+> b := step ( 0 , 2 )
+b = new StepCurve(2, 0)
+> c := step ( 0 , 3 )
+c = new StepCurve(3, 0)
+# (a /\ b) + c = stair(0, 4)
+# d(0+) = 4
+> d := a /\ b + c
+d = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,4,0), new Point(1,4), new Segment(1,2,4,0) }), pseudoPeriodStart: 1, pseudoPeriodLength: 1, pseudoPeriodHeight: 0)
+> d ( 0 + )
+4
+# (c + a) /\ b = stair(0, 2)
+# e(0+) = 2
+> e := c + a /\ b
+e = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,2,0), new Point(1,2), new Segment(1,2,2,0) }), pseudoPeriodStart: 1, pseudoPeriodLength: 1, pseudoPeriodHeight: 0)
+> e ( 0 + )
+2

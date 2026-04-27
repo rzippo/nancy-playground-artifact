@@ -1,0 +1,11 @@
+// Test lower pseudo-inverse: inv(f)
+// inv(affine(r, b)) = ratency(1/r, b) for r > 0
+// inv(affine(2, 5)) = ratency(1/2, 5)
+> f := affine ( 2 , 5 )
+f = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,5), new Segment(0,1,5,2) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 2)
+> result := inv ( f )
+result = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,5,0,0), new Point(5,0), new Segment(5,7,0,new Rational(1, 2)) }), pseudoPeriodStart: 5, pseudoPeriodLength: 2, pseudoPeriodHeight: 1)
+> expected := ratency ( 1 / 2 , 5 )
+expected = new RateLatencyServiceCurve(new Rational(1, 2), 5)
+> assert ( result = expected )
+true

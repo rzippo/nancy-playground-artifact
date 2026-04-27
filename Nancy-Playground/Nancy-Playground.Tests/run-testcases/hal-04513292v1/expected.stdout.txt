@@ -1,0 +1,24 @@
+> T4 := 60
+T4 = 60
+> A1 := stair ( 0 , 60 , 35 )
+A1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,60,35,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 35)
+> A2 := stair ( 0 , 5 , 2 )
+A2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,5,2,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 5, pseudoPeriodHeight: 2)
+> A4 := stair ( 0 , T4 , 12 )
+A4 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,60,12,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 12)
+> C := affine ( 1 , 0 )
+C = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> D1 := C + ( A1 - C ) * zero
+D1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,35,0,1), new Point(35,35), new Segment(35,60,35,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 35)
+> D2 := C + ( A1 + A2 - C ) * zero - D1
+D2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,35,0,0), new Point(35,0), new Segment(35,59,0,1), new Point(59,24), new Segment(59,60,24,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 24)
+> D4 := C + ( A4 - C ) * zero
+D4 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,12,0,1), new Point(12,12), new Segment(12,60,12,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 12)
+> floor := right-ext ( stair ( 1 , 1 , 1 ) )
+floor = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> A3 := ( floor comp ( D2 / 2 ) ) * 4
+A3 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,37,0,0), new Point(37,4), new Segment(37,39,4,0), new Point(39,8), new Segment(39,41,8,0), new Point(41,12), new Segment(41,43,12,0), new Point(43,16), new Segment(43,45,16,0), new Point(45,20), new Segment(45,47,20,0), new Point(47,24), new Segment(47,49,24,0), new Point(49,28), new Segment(49,51,28,0), new Point(51,32), new Segment(51,53,32,0), new Point(53,36), new Segment(53,55,36,0), new Point(55,40), new Segment(55,57,40,0), new Point(57,44), new Segment(57,59,44,0), new Point(59,48), new Segment(59,60,48,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 48)
+> D3 := C + ( A3 + A4 - C ) * zero - D4
+D3 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,37,0,0), new Point(37,0), new Segment(37,60,0,1), new Point(60,23), new Segment(60,72,23,0), new Point(72,23), new Segment(72,97,23,1) }), pseudoPeriodStart: 37, pseudoPeriodLength: 60, pseudoPeriodHeight: 48)
+> hDev ( A3 , D3 )
+38

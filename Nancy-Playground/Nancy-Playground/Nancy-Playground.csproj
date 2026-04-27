@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net9.0;net10.0;net8.0</TargetFrameworks>
+    <LangVersion>14</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <RootNamespace>Unipi.Nancy.Playground.Cli</RootNamespace>
+    <AssemblyName>Unipi.Nancy.Playground.Cli</AssemblyName>
+    <Title>Nancy Playground</Title>
+    <Authors>Raffaele Zippo</Authors>
+    <Description>A command-line interpreter for Deterministic Network Calculus</Description>
+    <Copyright>Raffaele Zippo, University of Pisa</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>nancy.png</PackageIcon>
+    <PackageReadmeFile>nuget.md</PackageReadmeFile>
+    <PackageProjectUrl>https://rzippo.github.io/nancy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rzippo/nancy-playground</RepositoryUrl>
+    <PackageTags>deterministic-network-calculus,network-calculus</PackageTags>
+    <PackageVersion>1.0.8</PackageVersion>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>nancy-playground</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MppgParser\MppgParser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console.Cli" Version="0.55.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.203" PrivateAssets="All" />
+    <PackageReference Include="Unipi.Nancy.Plots.ScottPlot" Version="1.0.5" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>false</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="nancy.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="nuget.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <!-- Collect metadata for this build, shown in welcome message -->
+  <Target Name="AddSourceRevisionToAssemblyMetadata"
+        BeforeTargets="AddSourceRevisionToInformationalVersion">
+    <ItemGroup>
+      <AssemblyMetadata Include="GitCommit" Value="$(SourceRevisionId)" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <AssemblyMetadata Include="PackageVersion" Value="$(PackageVersion)" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+        <AssemblyName>Unipi.Nancy.Playground.MppgParser</AssemblyName>
+        <RootNamespace>Unipi.Nancy.Playground.MppgParser</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.CLSCompliantAttribute">
+            <_Parameter1>false</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Grammar\Mppg.g4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
+      <PackageReference Include="Unipi.Nancy.Expressions" Version="1.0.1" />
+    </ItemGroup>
+
+</Project>

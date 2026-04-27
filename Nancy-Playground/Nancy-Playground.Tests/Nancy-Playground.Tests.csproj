@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+        <OutputType>Exe</OutputType>
+        <IsTestProject>true</IsTestProject>
+        <AssemblyName>Unipi.Nancy.Playground.Cli.Tests</AssemblyName>
+        <RootNamespace>Unipi.Nancy.Playground.Cli.Tests</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Nancy-Playground\Nancy-Playground.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
+        <PackageReference Include="coverlet.collector" Version="10.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="coverlet.MTP" Version="10.0.0" />
+        <PackageReference Include="CliWrap" Version="3.10.1" />
+        <PackageReference Include="Spectre.Console.Cli.Testing" Version="0.55.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="Xunit" />
+    </ItemGroup>
+
+    <!-- Ensure testcases get copied to output so AppContext.BaseDirectory works -->
+    <ItemGroup>
+        <None Include="run-testcases\**\*.*" CopyToOutputDirectory="Always" />
+        <None Include="convert-testcases\**\*.*" CopyToOutputDirectory="Always" />
+        <None Include="plot-testcases\**\*.*" CopyToOutputDirectory="Always" />
+        <None Include="run-mode-testcases\**\*.*" CopyToOutputDirectory="Always" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,4 @@
+ac := affine ( 2, 1 )
+sc := nnupclosure( stair ( 3, 2, 5 ) - 2 )
+d := hDev ( ac , sc )
+d

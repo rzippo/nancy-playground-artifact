@@ -1,0 +1,9 @@
+// Test upper non-decreasing closure: upclosure(f)
+// upclosure makes f non-decreasing (takes max with diagonal)
+// For declining affine f(x) = -x + 10, upclosure makes it constant at max value
+> f := affine ( - 1 , 10 )
+f = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,10), new Segment(0,1,10,-1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: -1)
+> result := upclosure ( f )
+result = f↑
+> assert ( result = 10 )
+true

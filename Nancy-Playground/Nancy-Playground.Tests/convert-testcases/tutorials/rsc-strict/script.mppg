@@ -1,0 +1,12 @@
+// Computing WCD bounds on a contended node, using residual service curves. 
+// Requires the service curve to be \emph{strict}, see Secion 7.2.1 of https://doi.org/10.1002/9781119440284
+
+// arrival curves for two traffic streams on the same node 
+a1 := bucket(2, 2)
+a2 := bucket(2, 2)
+// *strict* service curve offered by the node to the aggregate traffic
+sc := ratency(5, 1)
+// residual service curve: what is offered by the node to a1, assuming a2 has first taken as much service as it can
+rsc_1 := nnupclosure(sc - a2)
+// plot(a1, a2, sc, rsc_1)
+hdev(a1, rsc_1)

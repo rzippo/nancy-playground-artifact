@@ -1,0 +1,7 @@
+// Test lower pseudo-inverse: inv(f)
+// inv(affine(r, b)) = ratency(1/r, b) for r > 0
+// inv(affine(2, 5)) = ratency(1/2, 5)
+f := affine(2, 5)
+result := inv(f)
+expected := ratency(1/2,5)
+assert( result = expected )

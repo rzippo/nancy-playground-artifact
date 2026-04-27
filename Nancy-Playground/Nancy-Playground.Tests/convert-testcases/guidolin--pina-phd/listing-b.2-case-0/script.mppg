@@ -1,0 +1,71 @@
+% Tests on hypervisors
+
+WCET_LP := 1
+
+lambda := affine(1, 0)
+alpha_LP := stair(0, 12, WCET_LP)
+alpha_HP := stair(0, 12, 0.5)
+
+indicatrice_0 := zero
+indicatrice_LP := upp([(0, +Infinity) 0 (5, +Infinity)], period(](5, 0) 0 (6.5, 0)[ [(6.5, +Infinity) 0 (17, +Infinity)]), 0, 12)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%  CASE 0  %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%% Hypervisor 1 (H1) %%%%
+Close_H1 := upp( period([(0, 0) 1 (6, 6)] ](6, 6) 0 (12, 6)[ ))
+indicatrice_CH1 := upp( [(0, +Infinity) 0 (6, +Infinity)], period(](6, 0) 0 (12, 0)[ [(12, +Infinity) 0 (18, +Infinity)]), 0, 12)
+
+Open_H1 := lambda - Close_H1
+sigma := Open_H1 /^ Open_H1
+beta_M := Open_H1
+
+beta0_H1 := nnupclosure( lambda - ( Close_H1 / ( Close_H1 + indicatrice_0 )))
+beta0_LP_H1 := nnupclosure( beta0_H1 - alpha_HP )
+beta_H1 := nnupclosure( lambda - ( Close_H1 / ( Close_H1 + indicatrice_LP )))
+beta_LP_H1 := nnupclosure( beta_H1 - alpha_HP )
+
+dH1_0 := hdev( alpha_LP, beta0_LP_H1 )
+dH1 := hdev( alpha_LP, beta_LP_H1 )
+dH1
+
+shift_m := hShift( indicatrice_LP, 1)
+shift_M := hShift( indicatrice_LP, dH1 )
+bias_m := uaf([(0, +Infinity) 0 (1, +Infinity)] ](1, 0) 0 (+Infinity, 0)])
+bias_M := uaf([(0, +Infinity) 0 (2.5, +Infinity)] ](2.5, 0) 0 (+Infinity, 0)])
+
+indicatrice_H1 := (( shift_m + bias_m ) /\ ( shift_M + bias_M )) + indicatrice_CH1
+
+alphaN_LP := (( alpha_LP * beta_M ) / (beta_LP_H1 - WCET_LP)) /\ ( sigma + WCET_LP) /\ ( alpha_LP / delay(dH1 ))
+
+%%%% Network (N) %%%%
+dN_min := 1
+dN_max := 3
+shift_m := hShift( indicatrice_H1, 1)
+shift_M := hShift( indicatrice_H1, 3)
+bias_m := uaf([(0, +Infinity) 0 (1, +Infinity)] ](1, 0) 0 (+Infinity, 0)])
+bias_M := uaf([(0, +Infinity) 0 (3, +Infinity)] ](3, 0) 0 (+Infinity, 0)])
+indicatrice_N := (( shift_m + bias_m ) /\ ( shift_M + bias_M ))
+
+alpha_H2 := (( alphaN_LP * delay(dN_min) ) / ( delay(dN_max) - WCET_LP )) /\ ( delay(dN_min) + WCET_LP ) /\ ( alphaN_LP / delay(dN_max) )
+
+%%%% Hypervisor 2 (H2) %%%%
+
+Close_H2 := upp( period ( [(0, 0) 0 (2, 0)[ [(2, 0) 1 (7, 5)] ](7, 5) 0 ( 12, 5 )[ ))
+indicatrice_H2 := upp( period ([(0, +Infinity) 0 (2, +Infinity)[ [(2, 0) 0 (7, 0)] ](7, +Infinity) 0 (12, +Infinity)[), 0, 12)
+
+beta0_H2 := nnupclosure( lambda - ( Close_H2 / ( Close_H2 + indicatrice_0 )))
+beta0_LP_H2 := nnupclosure( beta0_H2 - alpha_HP )
+beta_H2 := nnupclosure( lambda - ( Close_H2 / ( Close_H2 + indicatrice_N )))
+beta_LP_H2 := nnupclosure( beta_H2 - alpha_HP )
+
+dH2_0 := hdev( alpha_H2, beta0_LP_H2 )
+dH2 := hdev( alpha_H2, beta_LP_H2 )
+dH2
+
+%%%%% delays %%%%%
+d1 := dH1 + dN_max + dH2
+d1
+d1_0 := dH1_0 + dN_max + dH2_0
+d1_0

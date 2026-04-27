@@ -1,0 +1,10 @@
+# run
+# input.txt
+# --deterministic
+# --no-welcome
+--output-mode
+    NancyNew
+--run-mode
+    PerStatement
+--on-error
+    Stop

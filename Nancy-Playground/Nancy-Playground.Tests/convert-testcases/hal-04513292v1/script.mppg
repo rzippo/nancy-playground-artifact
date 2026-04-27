@@ -1,0 +1,12 @@
+T4 := 60
+A1 := stair(0, 60, 35)
+A2 := stair (0, 5, 2)
+A4 := stair (0, T4, 12)
+C := affine (1 ,0)
+D1 := C + (A1 - C)*zero
+D2 := C + (A1 + A2 - C)*zero - D1
+D4 := C + (A4 - C)*zero
+floor := right-ext(stair(1, 1, 1))
+A3 := ( floor comp (D2 / 2) ) * 4
+D3 := C + (A3 + A4 - C)*zero - D4
+hDev(A3 , D3)

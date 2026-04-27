@@ -1,0 +1,98 @@
+% Tests on hypervisors
+> WCET_LP := 1
+WCET_LP = 1
+> lambda := affine ( 1 , 0 )
+lambda = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> alpha_LP := stair ( 0 , 12 , WCET_LP )
+alpha_LP = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,12,1,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 1)
+> alpha_HP := stair ( 0 , 12 , 0.5 )
+alpha_HP = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,12,new Rational(1, 2),0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: new Rational(1, 2))
+> indicatrice_0 := zero
+indicatrice_0 = Curve.Zero()
+> indicatrice_LP := upp ( [ ( 0 , + Infinity ) 0 ( 5 , + Infinity ) ] , period ( ] ( 5 , 0 ) 0 ( 6.5 , 0 ) [ [ ( 6.5 , + Infinity ) 0 ( 17 , + Infinity ) ] ) , 0 , 12 )
+indicatrice_LP = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,5,new Rational(1, 0),0), new Point(5,new Rational(1, 0)), new Segment(5,new Rational(13, 2),0,0), new Point(new Rational(13, 2),new Rational(1, 0)), new Segment(new Rational(13, 2),17,new Rational(1, 0),0), new Point(17,new Rational(1, 0)), new Segment(17,new Rational(37, 2),0,0) }), pseudoPeriodStart: new Rational(13, 2), pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%  CASE 0  %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Hypervisor 1 (H1) %%%%
+> Close_H1 := upp ( period ( [ ( 0 , 0 ) 1 ( 6 , 6 ) ] ] ( 6 , 6 ) 0 ( 12 , 6 ) [ ) )
+Close_H1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,6,0,1), new Point(6,6), new Segment(6,12,6,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 6)
+> indicatrice_CH1 := upp ( [ ( 0 , + Infinity ) 0 ( 6 , + Infinity ) ] , period ( ] ( 6 , 0 ) 0 ( 12 , 0 ) [ [ ( 12 , + Infinity ) 0 ( 18 , + Infinity ) ] ) , 0 , 12 )
+indicatrice_CH1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,6,new Rational(1, 0),0), new Point(6,new Rational(1, 0)), new Segment(6,12,0,0), new Point(12,new Rational(1, 0)), new Segment(12,18,new Rational(1, 0),0), new Point(18,new Rational(1, 0)), new Segment(18,24,0,0) }), pseudoPeriodStart: 12, pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+> Open_H1 := lambda - Close_H1
+Open_H1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,6,0,0), new Point(6,0), new Segment(6,12,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 6)
+> sigma := Open_H1 /^ Open_H1
+sigma = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,6,0,0), new Point(6,0), new Segment(6,12,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 6)
+> beta_M := Open_H1
+beta_M = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,6,0,0), new Point(6,0), new Segment(6,12,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 6)
+> beta0_H1 := nnupclosure ( lambda - ( Close_H1 / ( Close_H1 + indicatrice_0 ) ) )
+beta0_H1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,6,0,0), new Point(6,0), new Segment(6,12,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 6)
+> beta0_LP_H1 := nnupclosure ( beta0_H1 - alpha_HP )
+beta0_LP_H1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(13, 2),0,0), new Point(new Rational(13, 2),0), new Segment(new Rational(13, 2),12,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: new Rational(11, 2))
+> beta_H1 := nnupclosure ( lambda - ( Close_H1 / ( Close_H1 + indicatrice_LP ) ) )
+beta_H1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,0), new Point(1,0), new Segment(1,new Rational(13, 2),0,1), new Point(new Rational(13, 2),new Rational(11, 2)), new Segment(new Rational(13, 2),new Rational(23, 2),new Rational(11, 2),0), new Point(new Rational(23, 2),new Rational(11, 2)), new Segment(new Rational(23, 2),12,new Rational(11, 2),1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 6)
+> beta_LP_H1 := nnupclosure ( beta_H1 - alpha_HP )
+beta_LP_H1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(3, 2),0,0), new Point(new Rational(3, 2),0), new Segment(new Rational(3, 2),new Rational(13, 2),0,1), new Point(new Rational(13, 2),5), new Segment(new Rational(13, 2),new Rational(23, 2),5,0), new Point(new Rational(23, 2),5), new Segment(new Rational(23, 2),12,5,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: new Rational(11, 2))
+> dH1_0 := hdev ( alpha_LP , beta0_LP_H1 )
+dH1_0 = 15/2
+> dH1 := hdev ( alpha_LP , beta_LP_H1 )
+dH1 = 5/2
+> dH1
+5/2
+> shift_m := hShift ( indicatrice_LP , 1 )
+shift_m = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,0), new Point(1,new Rational(1, 0)), new Segment(1,6,new Rational(1, 0),0), new Point(6,new Rational(1, 0)), new Segment(6,new Rational(15, 2),0,0), new Point(new Rational(15, 2),new Rational(1, 0)), new Segment(new Rational(15, 2),18,new Rational(1, 0),0), new Point(18,new Rational(1, 0)), new Segment(18,new Rational(39, 2),0,0) }), pseudoPeriodStart: new Rational(15, 2), pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+> shift_M := hShift ( indicatrice_LP , dH1 )
+shift_M = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(5, 2),0,0), new Point(new Rational(5, 2),new Rational(1, 0)), new Segment(new Rational(5, 2),new Rational(15, 2),new Rational(1, 0),0), new Point(new Rational(15, 2),new Rational(1, 0)), new Segment(new Rational(15, 2),9,0,0), new Point(9,new Rational(1, 0)), new Segment(9,new Rational(39, 2),new Rational(1, 0),0), new Point(new Rational(39, 2),new Rational(1, 0)), new Segment(new Rational(39, 2),21,0,0) }), pseudoPeriodStart: 9, pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+> bias_m := uaf ( [ ( 0 , + Infinity ) 0 ( 1 , + Infinity ) ] ] ( 1 , 0 ) 0 ( + Infinity , 0 ) ] )
+bias_m = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,1,new Rational(1, 0),0), new Point(1,new Rational(1, 0)), new Segment(1,2,0,0), new Point(2,0), new Segment(2,3,0,0) }), pseudoPeriodStart: 2, pseudoPeriodLength: 1, pseudoPeriodHeight: 0)
+> bias_M := uaf ( [ ( 0 , + Infinity ) 0 ( 2.5 , + Infinity ) ] ] ( 2.5 , 0 ) 0 ( + Infinity , 0 ) ] )
+bias_M = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,new Rational(5, 2),new Rational(1, 0),0), new Point(new Rational(5, 2),new Rational(1, 0)), new Segment(new Rational(5, 2),new Rational(7, 2),0,0), new Point(new Rational(7, 2),0), new Segment(new Rational(7, 2),new Rational(9, 2),0,0) }), pseudoPeriodStart: new Rational(7, 2), pseudoPeriodLength: 1, pseudoPeriodHeight: 0)
+> indicatrice_H1 := ( ( shift_m + bias_m ) /\ ( shift_M + bias_M ) ) + indicatrice_CH1
+indicatrice_H1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,6,new Rational(1, 0),0), new Point(6,new Rational(1, 0)), new Segment(6,new Rational(15, 2),0,0), new Point(new Rational(15, 2),new Rational(1, 0)), new Segment(new Rational(15, 2),9,0,0), new Point(9,new Rational(1, 0)), new Segment(9,12,new Rational(1, 0),0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+> alphaN_LP := ( ( alpha_LP * beta_M ) / ( beta_LP_H1 - WCET_LP ) ) /\ ( sigma + WCET_LP ) /\ ( alpha_LP / delay ( dH1 ) )
+alphaN_LP = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,1), new Segment(0,new Rational(19, 2),1,0), new Point(new Rational(19, 2),1), new Segment(new Rational(19, 2),12,2,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 1)
+%%%% Network (N) %%%%
+> dN_min := 1
+dN_min = 1
+> dN_max := 3
+dN_max = 3
+> shift_m := hShift ( indicatrice_H1 , 1 )
+shift_m = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,0), new Point(1,new Rational(1, 0)), new Segment(1,7,new Rational(1, 0),0), new Point(7,new Rational(1, 0)), new Segment(7,new Rational(17, 2),0,0), new Point(new Rational(17, 2),new Rational(1, 0)), new Segment(new Rational(17, 2),10,0,0), new Point(10,new Rational(1, 0)), new Segment(10,13,new Rational(1, 0),0) }), pseudoPeriodStart: 1, pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+> shift_M := hShift ( indicatrice_H1 , 3 )
+shift_M = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,3,0,0), new Point(3,new Rational(1, 0)), new Segment(3,9,new Rational(1, 0),0), new Point(9,new Rational(1, 0)), new Segment(9,new Rational(21, 2),0,0), new Point(new Rational(21, 2),new Rational(1, 0)), new Segment(new Rational(21, 2),12,0,0), new Point(12,new Rational(1, 0)), new Segment(12,15,new Rational(1, 0),0) }), pseudoPeriodStart: 3, pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+> bias_m := uaf ( [ ( 0 , + Infinity ) 0 ( 1 , + Infinity ) ] ] ( 1 , 0 ) 0 ( + Infinity , 0 ) ] )
+bias_m = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,1,new Rational(1, 0),0), new Point(1,new Rational(1, 0)), new Segment(1,2,0,0), new Point(2,0), new Segment(2,3,0,0) }), pseudoPeriodStart: 2, pseudoPeriodLength: 1, pseudoPeriodHeight: 0)
+> bias_M := uaf ( [ ( 0 , + Infinity ) 0 ( 3 , + Infinity ) ] ] ( 3 , 0 ) 0 ( + Infinity , 0 ) ] )
+bias_M = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,3,new Rational(1, 0),0), new Point(3,new Rational(1, 0)), new Segment(3,4,0,0), new Point(4,0), new Segment(4,5,0,0) }), pseudoPeriodStart: 4, pseudoPeriodLength: 1, pseudoPeriodHeight: 0)
+> indicatrice_N := ( ( shift_m + bias_m ) /\ ( shift_M + bias_M ) )
+indicatrice_N = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,7,new Rational(1, 0),0), new Point(7,new Rational(1, 0)), new Segment(7,new Rational(17, 2),0,0), new Point(new Rational(17, 2),new Rational(1, 0)), new Segment(new Rational(17, 2),new Rational(21, 2),0,0), new Point(new Rational(21, 2),new Rational(1, 0)), new Segment(new Rational(21, 2),12,0,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+> alpha_H2 := ( ( alphaN_LP * delay ( dN_min ) ) / ( delay ( dN_max ) - WCET_LP ) ) /\ ( delay ( dN_min ) + WCET_LP ) /\ ( alphaN_LP / delay ( dN_max ) )
+alpha_H2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,1), new Segment(0,new Rational(13, 2),1,0), new Point(new Rational(13, 2),1), new Segment(new Rational(13, 2),12,2,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 1)
+%%%% Hypervisor 2 (H2) %%%%
+> Close_H2 := upp ( period ( [ ( 0 , 0 ) 0 ( 2 , 0 ) [ [ ( 2 , 0 ) 1 ( 7 , 5 ) ] ] ( 7 , 5 ) 0 ( 12 , 5 ) [ ) )
+Close_H2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,2,0,0), new Point(2,0), new Segment(2,7,0,1), new Point(7,5), new Segment(7,12,5,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 5)
+> indicatrice_H2 := upp ( period ( [ ( 0 , + Infinity ) 0 ( 2 , + Infinity ) [ [ ( 2 , 0 ) 0 ( 7 , 0 ) ] ] ( 7 , + Infinity ) 0 ( 12 , + Infinity ) [ ) , 0 , 12 )
+indicatrice_H2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(1, 0)), new Segment(0,2,new Rational(1, 0),0), new Point(2,0), new Segment(2,7,0,0), new Point(7,0), new Segment(7,12,new Rational(1, 0),0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 0)
+> beta0_H2 := nnupclosure ( lambda - ( Close_H2 / ( Close_H2 + indicatrice_0 ) ) )
+beta0_H2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,5,0,0), new Point(5,0), new Segment(5,12,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 7)
+> beta0_LP_H2 := nnupclosure ( beta0_H2 - alpha_HP )
+beta0_LP_H2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(11, 2),0,0), new Point(new Rational(11, 2),0), new Segment(new Rational(11, 2),12,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: new Rational(13, 2))
+> beta_H2 := nnupclosure ( lambda - ( Close_H2 / ( Close_H2 + indicatrice_N ) ) )
+beta_H2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,2,0,1), new Point(2,2), new Segment(2,7,2,0), new Point(7,2), new Segment(7,12,2,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: 7)
+> beta_LP_H2 := nnupclosure ( beta_H2 - alpha_HP )
+beta_LP_H2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(1, 2),0,0), new Point(new Rational(1, 2),0), new Segment(new Rational(1, 2),2,0,1), new Point(2,new Rational(3, 2)), new Segment(2,7,new Rational(3, 2),0), new Point(7,new Rational(3, 2)), new Segment(7,12,new Rational(3, 2),1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 12, pseudoPeriodHeight: new Rational(13, 2))
+> dH2_0 := hdev ( alpha_H2 , beta0_LP_H2 )
+dH2_0 = 13/2
+> dH2 := hdev ( alpha_H2 , beta_LP_H2 )
+dH2 = 3/2
+> dH2
+3/2
+%%%%% delays %%%%%
+> d1 := dH1 + dN_max + dH2
+d1 = 7
+> d1
+7
+> d1_0 := dH1_0 + dN_max + dH2_0
+d1_0 = 17
+> d1_0
+17

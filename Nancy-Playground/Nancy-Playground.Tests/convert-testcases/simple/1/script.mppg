@@ -1,0 +1,4 @@
+ac := bucket ( 2 , 1 )
+sc := ratency ( 3 , 1 )
+d := hDev ( ac , sc )
+d

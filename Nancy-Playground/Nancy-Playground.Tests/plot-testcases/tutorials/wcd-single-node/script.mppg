@@ -1,0 +1,13 @@
+// Computing a WCD bound using hDev(), single node case. 
+// See Section 5.3 https://doi.org/10.1002/9781119440284
+
+// arrival curve for the traffic
+ac := bucket(2, 2)
+// service curve for the traversed node
+sc := ratency(3, 1)
+// plot the two curves
+plot(out = "plot.png", ac, sc)
+// worst-case delay bound computed with horizontal deviation
+hdev(ac, sc)
+// worst-case backlog bound computed with vertical deviation
+vdev(ac, sc)

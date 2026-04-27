@@ -1,0 +1,279 @@
+// Periods of tasks
+> P_T1 := 15
+P_T1 = 15
+> P_T2 := 30
+P_T2 = 30
+> P_T3 := 45
+P_T3 = 45
+> P_T4 := 60
+P_T4 = 60
+> P_T5 := 120
+P_T5 = 120
+// Workloads ( p means ’ ) of tasks
+> C_T1 := 3
+C_T1 = 3
+> C_T2 := 4
+C_T2 = 4
+> C_T3 := 15
+C_T3 = 15
+> C_T4 := 5
+C_T4 = 5
+> C_T5 := 10
+C_T5 = 10
+> C_T2p := 4
+C_T2p = 4
+> C_T3p := 8
+C_T3p = 8
+> C_T4p := 2
+C_T4p = 2
+> C_T2pp := 2
+C_T2pp = 2
+> C_T3pp := 4
+C_T3pp = 4
+> C_T4pp := 1
+C_T4pp = 1
+// Maximum arrival curves for input tasks
+> aT1 := stair ( 0 , P_T1 , C_T1 )
+aT1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,15,3,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 15, pseudoPeriodHeight: 3)
+> aT2 := stair ( 0 , P_T2 , C_T2 )
+aT2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,30,4,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 30, pseudoPeriodHeight: 4)
+> aT3 := stair ( 0 , P_T3 , C_T3 )
+aT3 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,45,15,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 45, pseudoPeriodHeight: 15)
+> aT4 := stair ( 0 , P_T4 , C_T4 )
+aT4 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,60,5,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 5)
+> aT5 := stair ( 0 , P_T5 , C_T5 )
+aT5 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,120,10,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 120, pseudoPeriodHeight: 10)
+> aT23 := aT2 + aT3
+aT23 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,30,19,0), new Point(30,19), new Segment(30,45,23,0), new Point(45,23), new Segment(45,60,38,0), new Point(60,38), new Segment(60,90,42,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 90, pseudoPeriodHeight: 42)
+// Service curves for all the servers
+> beta_m := affine ( 1 , 0 )
+beta_m = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> beta_M := affine ( 1 , 0 )
+beta_M = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> sigma := affine ( 1 , 0 )
+sigma = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+// Residual service curve in the CPU1/2 ( Static Priority Preeptive )
+> b_r_T1 := beta_m
+b_r_T1 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> b_r_T2 := nnupclosure ( beta_m - aT1 )
+b_r_T2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,3,0,0), new Point(3,0), new Segment(3,15,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 15, pseudoPeriodHeight: 12)
+> b_r_T3 := nnupclosure ( beta_m - aT1 - aT2 )
+b_r_T3 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,7,0,0), new Point(7,0), new Segment(7,15,0,1), new Point(15,8), new Segment(15,18,8,0), new Point(18,8), new Segment(18,30,8,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 30, pseudoPeriodHeight: 20)
+> b_r_T4 := beta_m
+b_r_T4 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> b_r_T5 := nnupclosure ( beta_m - aT4 )
+b_r_T5 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,5,0,0), new Point(5,0), new Segment(5,60,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 55)
+> b_r_T23 := nnupclosure ( beta_m - aT1 )
+b_r_T23 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,3,0,0), new Point(3,0), new Segment(3,15,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 15, pseudoPeriodHeight: 12)
+// Local delays of the first server (CPU1 o r CPU2 depends on the task )
+> delay_T1 := hDev ( aT1 , b_r_T1 )
+delay_T1 = 3
+> delay_T1
+3
+> delay_T2 := hDev ( aT2 , b_r_T2 )
+delay_T2 = 7
+> delay_T2
+7
+> delay_T3 := hDev ( aT3 , b_r_T3 )
+delay_T3 = 25
+> delay_T3
+25
+> delay_T4 := hDev ( aT4 , b_r_T4 )
+delay_T4 = 5
+> delay_T4
+5
+> delay_T5 := hDev ( aT5 , b_r_T5 )
+delay_T5 = 15
+> delay_T5
+15
+> delay_T23 := hDev ( aT23 , b_r_T23 )
+delay_T23 = 25
+> delay_T23
+25
+// Output maximal arrival curve before the scaling ( Server + Packetizer )
+> aT2p_aS := ( ( aT2 * beta_M ) / ( b_r_T2 - C_T2 ) ) /\ ( sigma + C_T2 ) /\ ( aT2 / delay ( delay_T2 ) )
+aT2p_aS = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,4), new Segment(0,23,4,0), new Point(23,4), new Segment(23,30,8,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 30, pseudoPeriodHeight: 4)
+> aT3p_aS := ( ( aT3 * beta_M ) / ( b_r_T2 - C_T3 ) ) /\ ( sigma + C_T3 ) /\ ( aT3 / delay ( delay_T3 ) )
+aT3p_aS = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,15), new Segment(0,20,15,0), new Point(20,15), new Segment(20,45,30,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 45, pseudoPeriodHeight: 15)
+> aT4p_aS := ( ( aT4 * beta_M ) / ( b_r_T2 - C_T4 ) ) /\ ( sigma + C_T4 ) /\ ( aT4 / delay ( delay_T4 ) )
+aT4p_aS = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,5), new Segment(0,55,5,0), new Point(55,5), new Segment(55,60,10,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 5)
+> aT23p_aS := ( ( aT23 * beta_M ) / ( b_r_T23 - C_T2 - C_T3 ) ) /\ ( sigma + C_T2 + C_T3 ) /\ ( aT23 / delay ( delay_T2 /\ delay_T3 ) )
+aT23p_aS = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,19), new Segment(0,23,19,0), new Point(23,19), new Segment(23,38,23,0), new Point(38,23), new Segment(38,53,38,0), new Point(53,38), new Segment(53,83,42,0), new Point(83,42), new Segment(83,90,61,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 90, pseudoPeriodHeight: 42)
+// scaling functions between CPU1/2 and BUS
+> s2 := affine ( C_T2p / C_T2 , 0 )
+s2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> s3 := affine ( C_T3p / C_T3 , 0 )
+s3 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,new Rational(8, 15)) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: new Rational(8, 15))
+> s4 := affine ( C_T4p / C_T4 , 0 )
+s4 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,new Rational(2, 5)) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: new Rational(2, 5))
+> s23 := ( s2 * s3 )
+s23 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,new Rational(8, 15)) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: new Rational(8, 15))
+// Output maximum arrival curves after the scaling
+> aT2p := s2 comp aT2p_aS
+aT2p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,4), new Segment(0,23,4,0), new Point(23,4), new Segment(23,30,8,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 30, pseudoPeriodHeight: 4)
+> aT3p := s3 comp aT3p_aS
+aT3p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,8), new Segment(0,20,8,0), new Point(20,8), new Segment(20,45,16,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 45, pseudoPeriodHeight: 8)
+> aT4p := s4 comp aT4p_aS
+aT4p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,2), new Segment(0,55,2,0), new Point(55,2), new Segment(55,60,4,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 2)
+> aT23p := s23 comp aT23p_aS
+aT23p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(152, 15)), new Segment(0,23,new Rational(152, 15),0), new Point(23,new Rational(152, 15)), new Segment(23,38,new Rational(184, 15),0), new Point(38,new Rational(184, 15)), new Segment(38,53,new Rational(304, 15),0), new Point(53,new Rational(304, 15)), new Segment(53,83,new Rational(112, 5),0), new Point(83,new Rational(112, 5)), new Segment(83,90,new Rational(488, 15),0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 90, pseudoPeriodHeight: new Rational(112, 5))
+// Residual service curve in the BUS ( Static Priority NON Preeptive )
+> b_r_T2p := nnupclosure ( beta_m - ( C_T3p \/ C_T4p ) )
+b_r_T2p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,8,0,0), new Point(8,0), new Segment(8,9,0,1) }), pseudoPeriodStart: 8, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> b_r_T3p := nnupclosure ( beta_m - aT2p - C_T4p )
+b_r_T3p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,6,0,0), new Point(6,0), new Segment(6,23,0,1), new Point(23,17), new Segment(23,27,17,0), new Point(27,17), new Segment(27,36,17,1) }), pseudoPeriodStart: 6, pseudoPeriodLength: 30, pseudoPeriodHeight: 26)
+> b_r_T4p := nnupclosure ( beta_m - aT2p - aT3p )
+b_r_T4p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,12,0,0), new Point(12,0), new Segment(12,20,0,1), new Point(20,8), new Segment(20,32,8,0), new Point(32,8), new Segment(32,53,8,1), new Point(53,29), new Segment(53,57,29,0), new Point(57,29), new Segment(57,65,29,1), new Point(65,37), new Segment(65,73,37,0), new Point(73,37), new Segment(73,83,37,1), new Point(83,47), new Segment(83,87,47,0), new Point(87,47), new Segment(87,102,47,1) }), pseudoPeriodStart: 12, pseudoPeriodLength: 90, pseudoPeriodHeight: 62)
+> b_r_T4p_aggr := nnupclosure ( beta_m - aT23p )
+b_r_T4p_aggr = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(152, 15),0,0), new Point(new Rational(152, 15),0), new Segment(new Rational(152, 15),23,0,1), new Point(23,new Rational(193, 15)), new Segment(23,new Rational(377, 15),new Rational(193, 15),0), new Point(new Rational(377, 15),new Rational(193, 15)), new Segment(new Rational(377, 15),38,new Rational(193, 15),1), new Point(38,new Rational(386, 15)), new Segment(38,46,new Rational(386, 15),0), new Point(46,new Rational(386, 15)), new Segment(46,53,new Rational(386, 15),1), new Point(53,new Rational(491, 15)), new Segment(53,new Rational(827, 15),new Rational(491, 15),0), new Point(new Rational(827, 15),new Rational(491, 15)), new Segment(new Rational(827, 15),83,new Rational(491, 15),1), new Point(83,new Rational(303, 5)), new Segment(83,new Rational(1397, 15),new Rational(303, 5),0), new Point(new Rational(1397, 15),new Rational(303, 5)), new Segment(new Rational(1397, 15),new Rational(1502, 15),new Rational(303, 5),1) }), pseudoPeriodStart: new Rational(152, 15), pseudoPeriodLength: 90, pseudoPeriodHeight: new Rational(338, 5))
+> b_r_T23p := nnupclosure ( beta_m - C_T4p )
+b_r_T23p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,2,0,0), new Point(2,0), new Segment(2,3,0,1) }), pseudoPeriodStart: 2, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+// Local delay of the second server (BUS)
+> delay_T2p := hDev ( aT2p , b_r_T2p )
+delay_T2p = 12
+> delay_T2p
+12
+> delay_T3p := hDev ( aT3p , b_r_T3p )
+delay_T3p = 14
+> delay_T3p
+14
+> delay_T4p := hDev ( aT4p , b_r_T4p )
+delay_T4p = 14
+> delay_T4p
+14
+> delay_T4p_aggr := hDev ( aT4p , b_r_T4p_aggr )
+delay_T4p_aggr = 182/15
+> delay_T4p_aggr
+182/15
+> delay_T23p := hDev ( aT23p , b_r_T23p )
+delay_T23p = 182/15
+> delay_T23p
+182/15
+// Output maximal arrival curve before the scaling ( Server + Packetizer )
+> aT2pp_aS := ( ( aT2p * beta_M ) / ( b_r_T2p - C_T2p ) ) /\ ( sigma + C_T2p ) /\ ( aT2p / delay ( delay_T2p ) )
+aT2pp_aS = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,4), new Segment(0,11,4,0), new Point(11,4), new Segment(11,30,8,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 30, pseudoPeriodHeight: 4)
+> aT3pp_aS := ( ( aT3p * beta_M ) / ( b_r_T2p - C_T3p ) ) /\ ( sigma + C_T3p ) /\ ( aT3p / delay ( delay_T3p ) )
+aT3pp_aS = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,8), new Segment(0,6,8,0), new Point(6,8), new Segment(6,8,14,1), new Point(8,16), new Segment(8,51,16,0), new Point(51,16), new Segment(51,53,24,0) }), pseudoPeriodStart: 8, pseudoPeriodLength: 45, pseudoPeriodHeight: 8)
+> aT4pp_aS := ( ( aT4p * beta_M ) / ( b_r_T2p - C_T4p ) ) /\ ( sigma + C_T4p ) /\ ( aT4p / delay ( delay_T4p ) )
+aT4pp_aS = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,2), new Segment(0,41,2,0), new Point(41,2), new Segment(41,60,4,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 2)
+> aT23pp_aS := ( ( aT23p * beta_M ) / ( b_r_T23p - C_T2p - C_T3p ) ) /\ ( sigma + C_T2p + C_T3p ) /\ ( aT23p / delay ( delay_T2p /\ delay_T3p ) )
+aT23pp_aS = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(152, 15)), new Segment(0,11,new Rational(152, 15),0), new Point(11,new Rational(152, 15)), new Segment(11,26,new Rational(184, 15),0), new Point(26,new Rational(184, 15)), new Segment(26,41,new Rational(304, 15),0), new Point(41,new Rational(304, 15)), new Segment(41,71,new Rational(112, 5),0), new Point(71,new Rational(112, 5)), new Segment(71,90,new Rational(488, 15),0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 90, pseudoPeriodHeight: new Rational(112, 5))
+// scaling functions between BUS and CPU3
+> s2p := affine ( C_T2pp / C_T2p , 0 )
+s2p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,new Rational(1, 2)) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: new Rational(1, 2))
+> s3p := affine ( C_T3pp / C_T3p , 0 )
+s3p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,new Rational(1, 2)) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: new Rational(1, 2))
+> s4p := affine ( C_T4pp / C_T4p , 0 )
+s4p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,new Rational(1, 2)) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: new Rational(1, 2))
+// Output maximum arrival curves after the scaling
+> aT2pp := s2p comp aT2pp_aS
+aT2pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,2), new Segment(0,11,2,0), new Point(11,2), new Segment(11,30,4,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 30, pseudoPeriodHeight: 2)
+> aT3pp := s3p comp aT3pp_aS
+aT3pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,4), new Segment(0,6,4,0), new Point(6,4), new Segment(6,8,7,new Rational(1, 2)), new Point(8,8), new Segment(8,51,8,0), new Point(51,8), new Segment(51,53,12,0) }), pseudoPeriodStart: 8, pseudoPeriodLength: 45, pseudoPeriodHeight: 4)
+> aT4pp := s4p comp aT4pp_aS
+aT4pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,1), new Segment(0,41,1,0), new Point(41,1), new Segment(41,60,2,0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 60, pseudoPeriodHeight: 1)
+> aT23pp := ( s2p * s3p ) comp aT23pp_aS
+aT23pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,new Rational(76, 15)), new Segment(0,11,new Rational(76, 15),0), new Point(11,new Rational(76, 15)), new Segment(11,26,new Rational(92, 15),0), new Point(26,new Rational(92, 15)), new Segment(26,41,new Rational(152, 15),0), new Point(41,new Rational(152, 15)), new Segment(41,71,new Rational(56, 5),0), new Point(71,new Rational(56, 5)), new Segment(71,90,new Rational(244, 15),0) }), pseudoPeriodStart: 0, pseudoPeriodLength: 90, pseudoPeriodHeight: new Rational(56, 5))
+// Residual service curve in the CPU3 ( Static Priority Preeptive )
+> b_r_T2pp := nnupclosure ( beta_m )
+b_r_T2pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> b_r_T3pp := nnupclosure ( beta_m - aT2pp )
+b_r_T3pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,2,0,0), new Point(2,0), new Segment(2,11,0,1), new Point(11,9), new Segment(11,13,9,0), new Point(13,9), new Segment(13,32,9,1) }), pseudoPeriodStart: 2, pseudoPeriodLength: 30, pseudoPeriodHeight: 28)
+> b_r_T4pp := nnupclosure ( beta_m - aT2pp - aT3pp )
+b_r_T4pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,6,0,0), new Point(6,0), new Segment(6,10,0,0), new Point(10,0), new Segment(10,11,0,1), new Point(11,1), new Segment(11,13,1,0), new Point(13,1), new Segment(13,41,1,1), new Point(41,29), new Segment(41,43,29,0), new Point(43,29), new Segment(43,51,29,1), new Point(51,37), new Segment(51,55,37,0), new Point(55,37), new Segment(55,71,37,1), new Point(71,53), new Segment(71,73,53,0), new Point(73,53), new Segment(73,96,53,1) }), pseudoPeriodStart: 6, pseudoPeriodLength: 90, pseudoPeriodHeight: 76)
+> b_r_T4pp_aggr := nnupclosure ( beta_m - aT23pp )
+b_r_T4pp_aggr = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(76, 15),0,0), new Point(new Rational(76, 15),0), new Segment(new Rational(76, 15),11,0,1), new Point(11,new Rational(89, 15)), new Segment(11,new Rational(181, 15),new Rational(89, 15),0), new Point(new Rational(181, 15),new Rational(89, 15)), new Segment(new Rational(181, 15),26,new Rational(89, 15),1), new Point(26,new Rational(298, 15)), new Segment(26,30,new Rational(298, 15),0), new Point(30,new Rational(298, 15)), new Segment(30,41,new Rational(298, 15),1), new Point(41,new Rational(463, 15)), new Segment(41,new Rational(631, 15),new Rational(463, 15),0), new Point(new Rational(631, 15),new Rational(463, 15)), new Segment(new Rational(631, 15),71,new Rational(463, 15),1), new Point(71,new Rational(299, 5)), new Segment(71,new Rational(1141, 15),new Rational(299, 5),0), new Point(new Rational(1141, 15),new Rational(299, 5)), new Segment(new Rational(1141, 15),new Rational(1426, 15),new Rational(299, 5),1) }), pseudoPeriodStart: new Rational(76, 15), pseudoPeriodLength: 90, pseudoPeriodHeight: new Rational(394, 5))
+> b_r_T23pp := nnupclosure ( beta_m )
+b_r_T23pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,1) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+// Local delay of the third server (CPU3)
+> delay_T2pp := hDev ( aT2pp , b_r_T2pp )
+delay_T2pp = 2
+> delay_T2pp
+2
+> delay_T3pp := hDev ( aT3pp , b_r_T3pp )
+delay_T3pp = 6
+> delay_T3pp
+6
+> delay_T4pp := hDev ( aT4pp , b_r_T4pp )
+delay_T4pp = 11
+> delay_T4pp
+11
+> delay_T4pp_aggr := hDev ( aT4pp , b_r_T4pp_aggr )
+delay_T4pp_aggr = 91/15
+> delay_T4pp_aggr
+91/15
+> delay_T23pp := hDev ( aT2pp , b_r_T23pp )
+delay_T23pp = 2
+> delay_T23pp
+2
+// Global delays ( sum of local delay )
+> delay_total_T2 := delay_T2 + delay_T2p + delay_T2pp
+delay_total_T2 = 21
+> delay_total_T2
+21
+> delay_total_T3 := delay_T3 + delay_T3p + delay_T3pp
+delay_total_T3 = 45
+> delay_total_T3
+45
+> delay_total_T4 := delay_T4 + delay_T4p + delay_T4pp
+delay_total_T4 = 30
+> delay_total_T4
+30
+> delay_total_T23 := delay_T23 + delay_T23p + delay_T23pp
+delay_total_T23 = 587/15
+> delay_total_T23
+587/15
+// Global delay ( aggregation of 2/3 to compute 4 )
+> delay_total_T4_aggr := delay_T4 + delay_T4p_aggr + delay_T4pp_aggr
+delay_total_T4_aggr = 116/5
+> delay_total_T4_aggr
+116/5
+// Global delays (PBOO)
+> b_T2 := ( b_r_T2 - C_T2 ) \/ 0
+b_T2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,7,0,0), new Point(7,0), new Segment(7,15,0,1), new Point(15,8), new Segment(15,18,8,0), new Point(18,8), new Segment(18,22,8,1) }), pseudoPeriodStart: 7, pseudoPeriodLength: 15, pseudoPeriodHeight: 12)
+> b_T2p := ( b_r_T2p - C_T2p ) \/ 0
+b_T2p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,12,0,0), new Point(12,0), new Segment(12,13,0,1) }), pseudoPeriodStart: 12, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> b_T2pp := ( b_r_T2pp - C_T2pp ) \/ 0
+b_T2pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,2,0,0), new Point(2,0), new Segment(2,3,0,1) }), pseudoPeriodStart: 2, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> beta_PBOO_T2 := ( ( s2 * s2p ) comp b_T2 ) * ( s2p comp b_T2p ) * b_T2pp
+beta_PBOO_T2 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,21,0,0), new Point(21,0), new Segment(21,29,0,new Rational(1, 2)), new Point(29,4), new Segment(29,32,4,0), new Point(32,4), new Segment(32,36,4,new Rational(1, 2)) }), pseudoPeriodStart: 21, pseudoPeriodLength: 15, pseudoPeriodHeight: 6)
+> delay_PBOO_T2 := hDev ( ( ( s2 * s2p ) comp aT2 ) , beta_PBOO_T2 )
+delay_PBOO_T2 = 25
+> delay_PBOO_T2
+25
+> b_T3 := ( b_r_T3 - C_T3 ) \/ 0
+b_T3 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,25,0,0), new Point(25,0), new Segment(25,30,0,1), new Point(30,5), new Segment(30,37,5,0), new Point(37,5), new Segment(37,45,5,1), new Point(45,13), new Segment(45,48,13,0), new Point(48,13), new Segment(48,55,13,1) }), pseudoPeriodStart: 25, pseudoPeriodLength: 30, pseudoPeriodHeight: 20)
+> b_T3p := ( b_r_T3p - C_T3p ) \/ 0
+b_T3p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,14,0,0), new Point(14,0), new Segment(14,23,0,1), new Point(23,9), new Segment(23,27,9,0), new Point(27,9), new Segment(27,44,9,1) }), pseudoPeriodStart: 14, pseudoPeriodLength: 30, pseudoPeriodHeight: 26)
+> b_T3pp := ( b_r_T3pp - C_T3pp ) \/ 0
+b_T3pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,6,0,0), new Point(6,0), new Segment(6,11,0,1), new Point(11,5), new Segment(11,13,5,0), new Point(13,5), new Segment(13,36,5,1) }), pseudoPeriodStart: 6, pseudoPeriodLength: 30, pseudoPeriodHeight: 28)
+> beta_PBOO_T3 := ( ( s3 * s3p ) comp b_T3 ) * ( s3p comp b_T3p ) * b_T3pp
+beta_PBOO_T3 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,45,0,0), new Point(45,0), new Segment(45,50,0,new Rational(1, 2)), new Point(50,new Rational(5, 2)), new Segment(50,54,new Rational(5, 2),0), new Point(54,new Rational(5, 2)), new Segment(54,57,new Rational(5, 2),0), new Point(57,new Rational(5, 2)), new Segment(57,65,new Rational(5, 2),new Rational(1, 2)), new Point(65,new Rational(13, 2)), new Segment(65,68,new Rational(13, 2),0), new Point(68,new Rational(13, 2)), new Segment(68,69,new Rational(13, 2),new Rational(1, 2)), new Point(69,7), new Segment(69,70,7,0), new Point(70,7), new Segment(70,78,7,new Rational(1, 2)), new Point(78,11), new Segment(78,81,11,0), new Point(81,11), new Segment(81,84,11,new Rational(1, 2)) }), pseudoPeriodStart: 54, pseudoPeriodLength: 30, pseudoPeriodHeight: 10)
+> delay_PBOO_T3 := hDev ( ( ( s3 * s3p ) comp aT3 ) , beta_PBOO_T3 )
+delay_PBOO_T3 = 71
+> delay_PBOO_T3
+71
+> b_T4 := ( b_r_T4 - C_T4 ) \/ 0
+b_T4 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,5,0,0), new Point(5,0), new Segment(5,6,0,1) }), pseudoPeriodStart: 5, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> b_T4p := ( b_r_T4p - C_T4p ) \/ 0
+b_T4p = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,14,0,0), new Point(14,0), new Segment(14,20,0,1), new Point(20,6), new Segment(20,32,6,0), new Point(32,6), new Segment(32,53,6,1), new Point(53,27), new Segment(53,57,27,0), new Point(57,27), new Segment(57,65,27,1), new Point(65,35), new Segment(65,73,35,0), new Point(73,35), new Segment(73,83,35,1), new Point(83,45), new Segment(83,87,45,0), new Point(87,45), new Segment(87,104,45,1) }), pseudoPeriodStart: 14, pseudoPeriodLength: 90, pseudoPeriodHeight: 62)
+> b_T4pp := ( b_r_T4pp - C_T4pp ) \/ 0
+b_T4pp = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,11,0,0), new Point(11,0), new Segment(11,13,0,0), new Point(13,0), new Segment(13,41,0,1), new Point(41,28), new Segment(41,43,28,0), new Point(43,28), new Segment(43,51,28,1), new Point(51,36), new Segment(51,55,36,0), new Point(55,36), new Segment(55,71,36,1), new Point(71,52), new Segment(71,73,52,0), new Point(73,52), new Segment(73,96,52,1), new Point(96,75), new Segment(96,100,75,0), new Point(100,75), new Segment(100,101,75,1) }), pseudoPeriodStart: 11, pseudoPeriodLength: 90, pseudoPeriodHeight: 76)
+> beta_PBOO_T4 := ( ( s4 * s4p ) comp b_T4 ) * ( s4p comp b_T4p ) * b_T4pp
+beta_PBOO_T4 = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,32,0,0), new Point(32,0), new Segment(32,new Rational(79, 2),0,new Rational(2, 5)), new Point(new Rational(79, 2),3), new Segment(new Rational(79, 2),new Rational(175, 4),3,0), new Point(new Rational(175, 4),3), new Segment(new Rational(175, 4),50,3,0), new Point(50,3), new Segment(50,new Rational(345, 4),3,new Rational(2, 5)), new Point(new Rational(345, 4),new Rational(35, 2)), new Segment(new Rational(345, 4),91,new Rational(35, 2),0), new Point(91,new Rational(35, 2)), new Segment(91,new Rational(207, 2),new Rational(35, 2),new Rational(2, 5)), new Point(new Rational(207, 2),new Rational(45, 2)), new Segment(new Rational(207, 2),105,new Rational(45, 2),0), new Point(105,new Rational(45, 2)), new Segment(105,new Rational(535, 4),new Rational(45, 2),new Rational(2, 5)) }), pseudoPeriodStart: new Rational(175, 4), pseudoPeriodLength: 90, pseudoPeriodHeight: 31)
+> delay_PBOO_T4 := hDev ( ( ( s4 * s4p ) comp aT4 ) , beta_PBOO_T4 )
+delay_PBOO_T4 = 37
+> delay_PBOO_T4
+37
+> b_T4_aggr := ( b_r_T4 - C_T4 ) \/ 0
+b_T4_aggr = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,5,0,0), new Point(5,0), new Segment(5,6,0,1) }), pseudoPeriodStart: 5, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> b_T4p_aggr := ( b_r_T4p_aggr - C_T4p ) \/ 0
+b_T4p_aggr = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(182, 15),0,0), new Point(new Rational(182, 15),0), new Segment(new Rational(182, 15),23,0,1), new Point(23,new Rational(163, 15)), new Segment(23,new Rational(377, 15),new Rational(163, 15),0), new Point(new Rational(377, 15),new Rational(163, 15)), new Segment(new Rational(377, 15),38,new Rational(163, 15),1), new Point(38,new Rational(356, 15)), new Segment(38,46,new Rational(356, 15),0), new Point(46,new Rational(356, 15)), new Segment(46,53,new Rational(356, 15),1), new Point(53,new Rational(461, 15)), new Segment(53,new Rational(827, 15),new Rational(461, 15),0), new Point(new Rational(827, 15),new Rational(461, 15)), new Segment(new Rational(827, 15),83,new Rational(461, 15),1), new Point(83,new Rational(293, 5)), new Segment(83,new Rational(1397, 15),new Rational(293, 5),0), new Point(new Rational(1397, 15),new Rational(293, 5)), new Segment(new Rational(1397, 15),new Rational(1532, 15),new Rational(293, 5),1) }), pseudoPeriodStart: new Rational(182, 15), pseudoPeriodLength: 90, pseudoPeriodHeight: new Rational(338, 5))
+> b_T4pp_aggr := ( b_r_T4pp_aggr - C_T4pp ) \/ 0
+b_T4pp_aggr = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(91, 15),0,0), new Point(new Rational(91, 15),0), new Segment(new Rational(91, 15),11,0,1), new Point(11,new Rational(74, 15)), new Segment(11,new Rational(181, 15),new Rational(74, 15),0), new Point(new Rational(181, 15),new Rational(74, 15)), new Segment(new Rational(181, 15),26,new Rational(74, 15),1), new Point(26,new Rational(283, 15)), new Segment(26,30,new Rational(283, 15),0), new Point(30,new Rational(283, 15)), new Segment(30,41,new Rational(283, 15),1), new Point(41,new Rational(448, 15)), new Segment(41,new Rational(631, 15),new Rational(448, 15),0), new Point(new Rational(631, 15),new Rational(448, 15)), new Segment(new Rational(631, 15),71,new Rational(448, 15),1), new Point(71,new Rational(294, 5)), new Segment(71,new Rational(1141, 15),new Rational(294, 5),0), new Point(new Rational(1141, 15),new Rational(294, 5)), new Segment(new Rational(1141, 15),new Rational(1441, 15),new Rational(294, 5),1) }), pseudoPeriodStart: new Rational(91, 15), pseudoPeriodLength: 90, pseudoPeriodHeight: new Rational(394, 5))
+> beta_PBOO_T4_aggr := ( ( s4 * s4p ) comp b_T4_aggr ) * ( s4p comp b_T4p_aggr ) * b_T4pp_aggr
+beta_PBOO_T4_aggr = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,new Rational(116, 5),0,0), new Point(new Rational(116, 5),0), new Segment(new Rational(116, 5),new Rational(793, 15),0,new Rational(2, 5)), new Point(new Rational(793, 15),new Rational(178, 15)), new Segment(new Rational(793, 15),new Rational(3307, 60),new Rational(178, 15),0), new Point(new Rational(3307, 60),new Rational(178, 15)), new Segment(new Rational(3307, 60),new Rational(856, 15),new Rational(178, 15),0), new Point(new Rational(856, 15),new Rational(178, 15)), new Segment(new Rational(856, 15),new Rational(3949, 60),new Rational(178, 15),new Rational(2, 5)), new Point(new Rational(3949, 60),new Rational(461, 30)), new Segment(new Rational(3949, 60),new Rational(331, 5),new Rational(461, 30),0), new Point(new Rational(331, 5),new Rational(461, 30)), new Segment(new Rational(331, 5),new Rational(3031, 30),new Rational(461, 30),new Rational(2, 5)), new Point(new Rational(3031, 30),new Rational(293, 10)), new Segment(new Rational(3031, 30),new Rational(521, 5),new Rational(293, 10),0), new Point(new Rational(521, 5),new Rational(293, 10)), new Segment(new Rational(521, 5),new Rational(8707, 60),new Rational(293, 10),new Rational(2, 5)) }), pseudoPeriodStart: new Rational(3307, 60), pseudoPeriodLength: 90, pseudoPeriodHeight: new Rational(169, 5))
+> delay_PBOO_T4_aggr := hDev ( ( ( s4 * s4p ) comp aT4 ) , beta_PBOO_T4_aggr )
+delay_PBOO_T4_aggr = 141/5
+> delay_PBOO_T4_aggr
+141/5

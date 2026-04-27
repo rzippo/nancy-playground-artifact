@@ -1,0 +1,15 @@
+// Test subadditive closure: star(f)
+// star(f) = lim_{n->inf} f^{*n} / n
+// For affine(r, 0), star returns the same function since it's already subadditive
+> f := affine ( 3 , 0 )
+f = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,3) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 3)
+> star_f := star ( f )
+star_f = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,0,3) }), pseudoPeriodStart: 0, pseudoPeriodLength: 1, pseudoPeriodHeight: 3)
+> assert ( f = star_f )
+true
+> g := ratency ( 1 , 1 ) + 1
+g = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,1), new Segment(0,1,1,0), new Point(1,1), new Segment(1,2,1,1) }), pseudoPeriodStart: 1, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> star_g := star ( g )
+star_g = new Curve(baseSequence: new Sequence(new List<Element>{ new Point(0,0), new Segment(0,1,1,0), new Point(1,1), new Segment(1,2,1,1) }), pseudoPeriodStart: 1, pseudoPeriodLength: 1, pseudoPeriodHeight: 1)
+> assert ( g >= star_g )
+true

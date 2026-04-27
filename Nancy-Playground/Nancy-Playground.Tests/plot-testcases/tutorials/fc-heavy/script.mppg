@@ -1,0 +1,9 @@
+// Example of convolution that turns out from systems with hop-by-hop flow control, 
+// and benefits from optimizations on convolutions between subadditive functions
+// See https://doi.org/10.1109/TIT.2023.3244276
+
+f := star( ratency(5, 13) + 11 )
+g := star( ratency(7, 17) + 15 )
+h := star( ratency(11, 19) + 21 )
+k := f * g * h
+plot(out = "plot.png", f, g, h, k)

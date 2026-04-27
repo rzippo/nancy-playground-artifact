@@ -1,0 +1,9 @@
+// Test subadditive closure: star(f)
+// star(f) = lim_{n->inf} f^{*n} / n
+// For affine(r, 0), star returns the same function since it's already subadditive
+f := affine(3, 0)
+star_f := star(f)
+assert( f = star_f )
+g := ratency(1, 1) + 1
+star_g := star(g)
+assert( g >= star_g )

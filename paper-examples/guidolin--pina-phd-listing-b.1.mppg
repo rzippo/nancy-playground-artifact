@@ -1,0 +1,169 @@
+// Periods of tasks
+P_T1 := 15
+P_T2 := 30
+P_T3 := 45
+P_T4 := 60
+P_T5 := 120
+
+// Workloads ( p means ’ ) of tasks
+C_T1 := 3
+C_T2 := 4
+C_T3 := 15
+C_T4 := 5
+C_T5 := 10
+C_T2p := 4
+C_T3p := 8
+C_T4p := 2
+C_T2pp := 2
+C_T3pp := 4
+C_T4pp := 1
+
+// Maximum arrival curves for input tasks
+aT1 := stair ( 0 , P_T1, C_T1)
+aT2 := stair ( 0 , P_T2, C_T2)
+aT3 := stair ( 0 , P_T3, C_T3)
+aT4 := stair ( 0 , P_T4, C_T4)
+aT5 := stair ( 0 , P_T5, C_T5)
+aT23 := aT2 + aT3
+
+// Service curves for all the servers
+beta_m := affine ( 1 , 0 )
+beta_M := affine ( 1 , 0 )
+sigma := affine ( 1 , 0 )
+
+// Residual service curve in the CPU1/2 ( Static Priority Preeptive )
+b_r_T1 := beta_m
+b_r_T2 := nnupclosure ( beta_m - aT1 )
+b_r_T3 := nnupclosure ( beta_m - aT1 - aT2 )
+b_r_T4 := beta_m
+b_r_T5 := nnupclosure ( beta_m - aT4 )
+b_r_T23 := nnupclosure ( beta_m - aT1 )
+
+// Local delays of the first server (CPU1 o r CPU2 depends on the task )
+delay_T1 := hDev ( aT1 , b_r_T1)
+delay_T1
+delay_T2 := hDev ( aT2 , b_r_T2)
+delay_T2
+delay_T3 := hDev ( aT3 , b_r_T3)
+delay_T3
+delay_T4 := hDev ( aT4 , b_r_T4)
+delay_T4
+delay_T5 := hDev ( aT5 , b_r_T5)
+delay_T5
+delay_T23 := hDev ( aT23 , b_r_T23 )
+delay_T23
+
+// Output maximal arrival curve before the scaling ( Server + Packetizer )
+aT2p_aS := ( ( aT2 * beta_M ) / (b_r_T2 - C_T2) ) /\ ( sigma + C_T2) /\ ( aT2 / delay ( delay_T2 ) )
+aT3p_aS := ( ( aT3 * beta_M ) / (b_r_T2 - C_T3) ) /\ ( sigma + C_T3) /\ ( aT3 / delay ( delay_T3 ) )
+aT4p_aS := ( ( aT4 * beta_M ) / (b_r_T2 - C_T4) ) /\ ( sigma + C_T4) /\ ( aT4 / delay ( delay_T4 ) )
+aT23p_aS := ( ( aT23 * beta_M ) / ( b_r_T23 - C_T2 - C_T3) ) /\ ( sigma + C_T2 + C_T3) /\ ( aT23 / delay ( delay_T2 /\ delay_T3 ) )
+
+// scaling functions between CPU1/2 and BUS
+s2 := affine (C_T2p/C_T2, 0 )
+s3 := affine (C_T3p/C_T3, 0 )
+s4 := affine (C_T4p/C_T4, 0 )
+s23 := ( s2 * s3 )
+
+// Output maximum arrival curves after the scaling
+aT2p := s2 comp aT2p_aS
+aT3p := s3 comp aT3p_aS
+aT4p := s4 comp aT4p_aS
+aT23p := s23 comp aT23p_aS
+
+// Residual service curve in the BUS ( Static Priority NON Preeptive )
+b_r_T2p := nnupclosure ( beta_m - (C_T3p \/ C_T4p) )
+b_r_T3p := nnupclosure ( beta_m - aT2p - C_T4p)
+b_r_T4p := nnupclosure ( beta_m - aT2p - aT3p )
+b_r_T4p_aggr := nnupclosure ( beta_m - aT23p )
+b_r_T23p := nnupclosure ( beta_m - C_T4p)
+
+// Local delay of the second server (BUS)
+delay_T2p := hDev ( aT2p , b_r_T2p )
+delay_T2p
+delay_T3p := hDev ( aT3p , b_r_T3p )
+delay_T3p
+delay_T4p := hDev ( aT4p , b_r_T4p )
+
+delay_T4p
+delay_T4p_aggr := hDev ( aT4p , b_r_T4p_aggr )
+delay_T4p_aggr
+delay_T23p := hDev ( aT23p , b_r_T23p )
+delay_T23p
+
+// Output maximal arrival curve before the scaling ( Server + Packetizer )
+aT2pp_aS := ( ( aT2p * beta_M ) / ( b_r_T2p - C_T2p) ) /\ ( sigma + C_T2p) /\ ( aT2p / delay ( delay_T2p ) )
+aT3pp_aS := ( ( aT3p * beta_M ) / ( b_r_T2p - C_T3p) ) /\ ( sigma + C_T3p) /\ ( aT3p / delay ( delay_T3p ) )
+aT4pp_aS := ( ( aT4p * beta_M ) / ( b_r_T2p - C_T4p) ) /\ ( sigma + C_T4p) /\ ( aT4p / delay ( delay_T4p ) )
+aT23pp_aS := ( ( aT23p * beta_M ) / ( b_r_T23p - C_T2p - C_T3p) ) /\ ( sigma + C_T2p + C_T3p) /\ ( aT23p / delay ( delay_T2p /\ delay_T3p ) )
+
+// scaling functions between BUS and CPU3
+s2p := affine (C_T2pp/C_T2p, 0 )
+s3p := affine (C_T3pp/C_T3p, 0 )
+s4p := affine (C_T4pp/C_T4p, 0 )
+
+// Output maximum arrival curves after the scaling
+aT2pp := s2p comp aT2pp_aS
+aT3pp := s3p comp aT3pp_aS
+aT4pp := s4p comp aT4pp_aS
+aT23pp := ( s2p * s3p ) comp aT23pp_aS
+
+// Residual service curve in the CPU3 ( Static Priority Preeptive )
+b_r_T2pp := nnupclosure ( beta_m )
+b_r_T3pp := nnupclosure ( beta_m - aT2pp )
+b_r_T4pp := nnupclosure ( beta_m - aT2pp - aT3pp )
+b_r_T4pp_aggr := nnupclosure ( beta_m - aT23pp )
+b_r_T23pp := nnupclosure ( beta_m )
+
+// Local delay of the third server (CPU3)
+delay_T2pp := hDev ( aT2pp , b_r_T2pp )
+delay_T2pp
+delay_T3pp := hDev ( aT3pp , b_r_T3pp )
+delay_T3pp
+delay_T4pp := hDev ( aT4pp , b_r_T4pp )
+delay_T4pp
+delay_T4pp_aggr := hDev ( aT4pp , b_r_T4pp_aggr )
+delay_T4pp_aggr
+delay_T23pp := hDev ( aT2pp , b_r_T23pp )
+delay_T23pp
+
+// Global delays ( sum of local delay )
+delay_total_T2 := delay_T2 + delay_T2p + delay_T2pp
+delay_total_T2
+delay_total_T3 := delay_T3 + delay_T3p + delay_T3pp
+
+delay_total_T3
+delay_total_T4 := delay_T4 + delay_T4p + delay_T4pp
+delay_total_T4
+delay_total_T23 := delay_T23 + delay_T23p + delay_T23pp
+delay_total_T23
+
+// Global delay ( aggregation of 2/3 to compute 4 )
+delay_total_T4_aggr := delay_T4 + delay_T4p_aggr + delay_T4pp_aggr
+delay_total_T4_aggr
+
+// Global delays (PBOO)
+b_T2 := (b_r_T2 - C_T2) \/ 0
+b_T2p := ( b_r_T2p - C_T2p) \/ 0
+b_T2pp := ( b_r_T2pp - C_T2pp) \/ 0
+beta_PBOO_T2 := ( ( s2 * s2p ) comp b_T2) * ( s2p comp b_T2p) * b_T2pp
+delay_PBOO_T2 := hDev ( ( ( s2 * s2p ) comp aT2 ) , beta_PBOO_T2)
+delay_PBOO_T2
+b_T3 := (b_r_T3 - C_T3) \/ 0
+b_T3p := ( b_r_T3p - C_T3p) \/ 0
+b_T3pp := ( b_r_T3pp - C_T3pp) \/ 0
+beta_PBOO_T3 := ( ( s3 * s3p ) comp b_T3) * ( s3p comp b_T3p) * b_T3pp
+delay_PBOO_T3 := hDev ( ( ( s3 * s3p ) comp aT3 ) , beta_PBOO_T3)
+delay_PBOO_T3
+b_T4 := (b_r_T4 - C_T4) \/ 0
+b_T4p := ( b_r_T4p - C_T4p) \/ 0
+b_T4pp := ( b_r_T4pp - C_T4pp) \/ 0
+beta_PBOO_T4 := ( ( s4 * s4p ) comp b_T4) * ( s4p comp b_T4p) * b_T4pp
+delay_PBOO_T4 := hDev ( ( ( s4 * s4p ) comp aT4 ) , beta_PBOO_T4)
+delay_PBOO_T4
+b_T4_aggr := (b_r_T4 - C_T4) \/ 0
+b_T4p_aggr := ( b_r_T4p_aggr - C_T4p) \/ 0
+b_T4pp_aggr := ( b_r_T4pp_aggr - C_T4pp) \/ 0
+beta_PBOO_T4_aggr := ( ( s4 * s4p ) comp b_T4_aggr ) * ( s4p comp b_T4p_aggr ) * b_T4pp_aggr
+delay_PBOO_T4_aggr := hDev ( ( ( s4 * s4p ) comp aT4 ) , beta_PBOO_T4_aggr )
+delay_PBOO_T4_aggr

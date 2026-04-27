@@ -1,0 +1,4 @@
+d := 2
+f := stair(0, 10, d)
+g := f + 1
+plot(f, g, main = "Test with d = " + d, xlim = [0, 12], ylim = [0, 5], out = "plot.png", gui = "no")

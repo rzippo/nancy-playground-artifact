@@ -1,0 +1,8 @@
+// Listing 7 from the paper: (min,+) convolution that benefits from super-isospeed optimizations.
+// Reference: Zippo, "Super-Isospeed" (2026), doi:10.1145/3793250
+// Run with: nancy-playground run listing-7-super-isospeed.mppg
+
+f1 := stair(3, 13*4, 3*17)
+f2 := stair(7, 19*15, 12*21)
+g := f1 * f2
+plot(f1, f2, g)
